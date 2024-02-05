@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var scoreMessage = ""
     @State private var userScore: Int = 0
     @State private var numberOFQuestions: Int = 0
+    @State private var isRotate = false
     
     var body: some View {
         ZStack {
@@ -44,6 +45,7 @@ struct ContentView: View {
                             flagTapped(number)
                         } label: {
                             FlagImage(imageName: contries[number])
+                                .rotation3DEffect(isRotate ? .degrees(360) : .zero, axis: (0, 1, 0))
                         }
                     }
                 }
@@ -79,6 +81,7 @@ struct ContentView: View {
         numberOFQuestions += 1
         
         if number == correctAnswer {
+            isRotate.toggle()
             userScore += 1
             scoreTitle = "Correct"
             scoreMessage = "Your score is \(userScore)"
