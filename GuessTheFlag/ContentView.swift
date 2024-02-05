@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var userScore: Int = 0
     @State private var numberOFQuestions: Int = 0
     @State private var isRotate = false
+    @State private var isNotCorrect = false
     
     var body: some View {
         ZStack {
@@ -46,6 +47,7 @@ struct ContentView: View {
                         } label: {
                             FlagImage(imageName: contries[number])
                                 .rotation3DEffect(isRotate ? .degrees(360) : .zero, axis: (0, 1, 0))
+                                .opacity(isNotCorrect && number != correctAnswer ? 0.25 : 1)
                         }
                     }
                 }
@@ -81,10 +83,11 @@ struct ContentView: View {
         numberOFQuestions += 1
         
         if number == correctAnswer {
-            isRotate.toggle()
             userScore += 1
             scoreTitle = "Correct"
             scoreMessage = "Your score is \(userScore)"
+            isRotate = true
+            isNotCorrect = true
         } else {
             userScore -= 1
             scoreTitle = "Wrong"
@@ -100,11 +103,15 @@ struct ContentView: View {
     }
     
     func askQuestion() {
+        isRotate = false
+        isNotCorrect = false
         contries.shuffle()
         correctAnswer = Int.random(in: 0...2)
     }
     
     func reset() {
+        isRotate = false
+        isNotCorrect = false
         numberOFQuestions = 0
         userScore = 0
         contries.shuffle()
