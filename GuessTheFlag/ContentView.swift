@@ -48,6 +48,7 @@ struct ContentView: View {
                             FlagImage(imageName: contries[number])
                                 .rotation3DEffect(isRotate ? .degrees(360) : .zero, axis: (0, 1, 0))
                                 .opacity(isNotCorrect && number != correctAnswer ? 0.25 : 1)
+                                .scaleEffect(isNotCorrect && number != correctAnswer ? 0.8 : 1)
                         }
                     }
                 }
