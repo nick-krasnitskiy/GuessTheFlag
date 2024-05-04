@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var scoreTitle = ""
     @State private var message = ""
     @State private var userScore = 0
+    @State private var questionCount = 0
     
     var body: some View {
         ZStack {
@@ -63,27 +64,41 @@ struct ContentView: View {
             .padding()
         }
         .alert(scoreTitle, isPresented: $showingScore) {
-            Button("Continue", action: askQuestion)
+            questionCount < 8 ? Button("Continue", action: askQuestion) : Button("Reset", action: reset)
         } message: {
             Text(message)
         }
     }
     
     func flagTapped(_ number: Int) {
-        if number == correctAnswer {
-            userScore += 1
-            scoreTitle = "Correct"
-            message = "Your score is \(userScore)"
+        if questionCount < 8 {
+            if number == correctAnswer {
+                userScore += 1
+                scoreTitle = "Correct"
+                message = "Your score is \(userScore)"
+            } else {
+                userScore -= 1
+                scoreTitle = "Wrong"
+                message = "Wrong! That’s the flag of \(countries[number]). Your score is \(userScore)"
+            }
         } else {
-            userScore -= 1
-            scoreTitle = "Wrong"
-            message = "Wrong! That’s the flag of \(countries[number]). Your score is \(userScore)"
+            scoreTitle = "The End"
+            message = "You final score is \(userScore)"
         }
+    
         
         showingScore = true
     }
     
     func askQuestion() {
+        questionCount += 1
+        countries.shuffle()
+        correctAnswer = Int.random(in: 0...2)
+    }
+    
+    func reset() {
+        questionCount = 0
+        userScore = 0
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
     }
