@@ -36,7 +36,7 @@ struct ContentView: View {
                             .font(.subheadline.weight(.heavy))
                             .foregroundStyle(.secondary)
                         Text(countries[correctAnswer])
-                            .font(.largeTitle.weight(.semibold))
+                            .setProminentTitle()
                     }
                     
                     ForEach(0..<3) { number in
@@ -109,6 +109,20 @@ struct FlagImage: View {
         Image(name)
             .clipShape(.capsule)
             .shadow(radius: 5)
+    }
+}
+
+struct ProminentTitle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle)
+            .foregroundStyle(.blue)
+    }
+}
+
+extension View {
+    func setProminentTitle() -> some View {
+        modifier(ProminentTitle())
     }
 }
 
