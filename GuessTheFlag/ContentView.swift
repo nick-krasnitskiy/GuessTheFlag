@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var questionCount = 0
    
     @State private var animationAmount = 0.0
+    @State private var scaleAmount = 1.0
     
     var body: some View {
         ZStack {
@@ -46,6 +47,8 @@ struct ContentView: View {
                             flagTapped(number)
                         } label: {
                             FlagImage(name: countries[number])
+                                .scaleEffect(scaleAmount)
+                                .animation(.linear(duration: 1), value: scaleAmount)
                                 .rotation3DEffect(.degrees(animationAmount), axis: (x: 0, y: 1, z: 0))
                                 .opacity(number == correctAnswer ? 1 : 0.25)
                         }
@@ -88,7 +91,7 @@ struct ContentView: View {
             message = "You final score is \(userScore)"
         }
     
-   
+        scaleAmount += 0.1
         animationAmount += 360
         showingScore = true
     }
@@ -97,6 +100,7 @@ struct ContentView: View {
         questionCount += 1
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        scaleAmount = 1.0
     }
     
     func reset() {
