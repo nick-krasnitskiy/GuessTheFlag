@@ -47,6 +47,7 @@ struct ContentView: View {
                         } label: {
                             FlagImage(name: countries[number])
                                 .rotation3DEffect(.degrees(animationAmount), axis: (x: 0, y: 1, z: 0))
+                                .opacity(number == correctAnswer ? 1 : 0.25)
                         }
                     }
                 }
